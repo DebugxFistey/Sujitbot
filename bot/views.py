@@ -28,7 +28,7 @@ def get_data(request):
 
 
 def chat_bot(request, msgerInput):
-    openai.api_key = "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"
+    openai.api_key = "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"
     completions = openai.Completion.create(
             engine="text-davinci-002",
             prompt=msgerInput,
@@ -41,7 +41,7 @@ def chat_bot(request, msgerInput):
     return message
 
 def image_generate(request, msgerInput):
-    openai.api_key = "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"
+    openai.api_key = "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"
     response = openai.Image.create(
         prompt=msgerInput,
         n=1,
