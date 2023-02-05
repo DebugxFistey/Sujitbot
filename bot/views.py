@@ -11,7 +11,7 @@ def bot(request):
     return render(request,"index.html")
 
 def get_data(request):
-    openai.api_key = "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"
+    openai.api_key = "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"
     msgerInput = request.GET.get("msgerInput")
     selectInput = request.GET.get("selectInput")
     print(selectInput)
