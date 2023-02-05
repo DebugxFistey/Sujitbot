@@ -11,7 +11,6 @@ def bot(request):
     return render(request,"index.html")
 
 def get_data(request):
-    openai.api_key = "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"
     msgerInput = request.GET.get("msgerInput")
     selectInput = request.GET.get("selectInput")
     print(selectInput)
@@ -29,6 +28,7 @@ def get_data(request):
 
 
 def chat_bot(request, msgerInput):
+    openai.api_key = "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"
     completions = openai.Completion.create(
             engine="text-davinci-002",
             prompt=msgerInput,
@@ -41,7 +41,7 @@ def chat_bot(request, msgerInput):
     return message
 
 def image_generate(request, msgerInput):
-
+    openai.api_key = "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"
     response = openai.Image.create(
         prompt=msgerInput,
         n=1,
