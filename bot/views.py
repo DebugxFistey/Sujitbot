@@ -33,7 +33,7 @@ def chat_bot(request, msgerInput):
     payload = {
         "enable_google_results": "true",
         "enable_memory": False,
-        "input_text": "messi"
+        "input_text": msgerInput
     }
     headers = {
         "accept": "application/json",
