@@ -1,7 +1,7 @@
 from django.shortcuts import render
-import openai
 from django.http import JsonResponse
-import wikipedia
+import wikipediaapi
+import requests
 
 
 
@@ -14,10 +14,10 @@ def get_data(request):
     msgerInput = request.GET.get("msgerInput")
     selectInput = request.GET.get("selectInput")
     print(selectInput)
-    if selectInput == 'openai':
+    if selectInput == 'bot':
         message = chat_bot(request, msgerInput)
-    elif selectInput == 'image':
-        message = image_generate(request, msgerInput)
+    elif selectInput == 'wikipedia':
+        message = wikipedia(request, msgerInput)
 
     print(message)
     result = {
@@ -28,25 +28,26 @@ def get_data(request):
 
 
 def chat_bot(request, msgerInput):
-    openai.api_key = "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"
-    completions = openai.Completion.create(
-            engine="text-davinci-002",
-            prompt=msgerInput,
-            max_tokens=1024,
-            n=1,
-            stop=None,
-            temperature=0.5,
-        )
-    message = completions.choices[0].text
-    return message
+    url = "https://api.writesonic.com/v2/business/content/chatsonic?engine=premium"
 
-def image_generate(request, msgerInput):
-    openai.api_key = "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"
-    response = openai.Image.create(
-        prompt=msgerInput,
-        n=1,
-        size="512x512"
-    )
-    image_url = response['data'][0]['url']
-    img_src = f"<img src={image_url} width='200px' height='200px'>"
-    return img_src
+    payload = {
+        "enable_google_results": "true",
+        "enable_memory": False,
+        "input_text": "messi"
+    }
+    headers = {
+        "accept": "application/json",
+        "content-type": "application/json",
+        "X-API-KEY": "6fa7b260-0e4c-4890-b8a4-3fc5ec6e01e7"
+    }
+
+    response = requests.post(url, json=payload, headers=headers).json()["message"]
+    return response
+
+def wikipedia(request, msgerInput):
+
+    wiki_wiki = wikipediaapi.Wikipedia('en')
+
+    page_py = wiki_wiki.page(msgerInput)
+    response = page_py.summary
+    return response
